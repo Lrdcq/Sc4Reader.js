@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SC4_READER_DBPF_TEST</title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="../src/Sc4Reader.Loader.js"></script>
+	<script type="text/javascript" src="../src/Sc4Reader.Reader.js"></script>
+	<script type="text/javascript" src="../src/Sc4Reader.DBPF.js"></script>
+</head>
+<body>
+	<input id="file-input" type="file" accept="*.*" name="file">
+	<input id="file-click" type="submit" value="提交"/>
+<script>
+document.getElementById("file-click").onclick=function(){
+	var loader=new Sc4Reader.Loader();
+	loader.onload=function(file){
+		_file=new Sc4Reader.DBPF(file);
+		alert(_file);
+	}
+	loader.open(document.getElementById("file-input"));
+}
+</script>
+</body>
+</html>
