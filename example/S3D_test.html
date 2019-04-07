@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SC4_READER_S3D_TEST</title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="./three.min.js"></script>
+	<script type="text/javascript" src="../src/Sc4Reader.Loader.js"></script>
+	<script type="text/javascript" src="../src/Sc4Reader.Reader.js"></script>
+	<script type="text/javascript" src="../src/Sc4Reader.S3D.js"></script>
+	<script type="text/javascript" src="../src/Sc4Reader.S3DThreeModel.js"></script>
+</head>
+<body>
+	<input id="file-input" type="file" accept="*.*" name="file">
+	<input id="file-click" type="submit" value="提交"/>
+	<br><br>
+<script>
+document.getElementById("file-click").onclick = function(){
+	var loader = new Sc4Reader.Loader();
+	loader.onload = function(file){
+		let _file = new Sc4Reader.S3D(file);
+		console.log(_file.file);
+
+		let model = Sc4Reader.S3DThreeModel.convertS3DtoS3DThreeModel(_file.file);
+		play(model.geometrys);
+	}
+	loader.open(document.getElementById("file-input"));
+}
+
+play = function(geometrys) {
+	let scene = new THREE.Scene();
+	let camera = new THREE.OrthographicCamera(-40, 40, 40, -40, -1000, 1000 );
+
+	let renderer = new THREE.WebGLRenderer();
+	renderer.setSize(600, 600);
+
+	let dom = renderer.domElement;
+	dom.style.width = '600px';
+	dom.style.height = '600px';
+	document.body.appendChild(dom);
+
+	let material = new THREE.MeshBasicMaterial( { color: 0xffffff, wireframe: true, transparent: true });
+	let group = new THREE.Group();
+	geometrys.forEach(function(geometry) {
+		group.add(new THREE.Mesh(geometry, material));
+	});
+	scene.add(group);
+
+	let animate = function () {
+		requestAnimationFrame(animate);
+
+		group.rotation.x += 0.01;
+		group.rotation.y += 0.01;
+
+		renderer.render(scene, camera);
+	};
+
+	animate();
+}
+</script>
+</body>
+</html>

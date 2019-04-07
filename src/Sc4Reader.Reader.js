@@ -54,8 +54,8 @@ Sc4Reader.Reader.prototype.read=function(type,length,dontmove){
 			if(dontmove){this.point=sp;}
 			return str;
 		}
-	}catch(e){			
-		alert('read:文件越界！');
+	}catch(e){
+		throw 'read:文件越界！';
 		return 0;
 	}
 }

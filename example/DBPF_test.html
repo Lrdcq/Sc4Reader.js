@@ -11,11 +11,13 @@
 	<input id="file-input" type="file" accept="*.*" name="file">
 	<input id="file-click" type="submit" value="提交"/>
 <script>
-document.getElementById("file-click").onclick=function(){
-	var loader=new Sc4Reader.Loader();
-	loader.onload=function(file){
-		_file=new Sc4Reader.DBPF(file);
-		alert(_file);
+document.getElementById("file-click").onclick = function() {
+	var loader = new Sc4Reader.Loader();
+	loader.onload = function(file) {
+		console.time();
+		_file = new Sc4Reader.DBPF(file);
+		console.timeEnd();
+		console.log(_file.file);
 	}
 	loader.open(document.getElementById("file-input"));
 }
